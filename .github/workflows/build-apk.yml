@@ -31,6 +31,11 @@ jobs:
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
 
+      - name: Sign with v1 + v2 + v3 schemes (older Huawei/EMUI installers need v1)
+        run: |
+          sed -i "s/keyPassword 'android'/keyPassword 'android'\n            enableV1Signing true\n            enableV2Signing true\n            enableV3Signing true/" android/app/build.gradle
+          grep -n -A4 "signingConfigs {" android/app/build.gradle
+
       - name: Build release APK
         working-directory: android
         run: ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a,armeabi-v7a
