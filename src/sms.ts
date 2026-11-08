@@ -8,7 +8,7 @@ export async function requestSmsPermission(): Promise<boolean> {
   if (hasSmsPermission()) return true;
   const r = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_SMS, {
     title: 'Доступ к SMS от банков',
-    message: 'Moliya читает только SMS от банков и платёжных систем, чтобы сама записывать доходы и расходы. Данные не покидают телефон.',
+    message: 'Finance App читает только SMS от банков и платёжных систем, чтобы сама записывать доходы и расходы. Данные не покидают телефон.',
     buttonPositive: 'Разрешить',
     buttonNegative: 'Не сейчас',
   });

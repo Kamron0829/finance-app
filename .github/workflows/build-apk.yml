@@ -36,16 +36,16 @@ jobs:
         run: ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a,armeabi-v7a
 
       - name: Rename APK
-        run: cp android/app/build/outputs/apk/release/app-release.apk moliya-${{ github.run_number }}.apk
+        run: cp android/app/build/outputs/apk/release/app-release.apk finance-app-${{ github.run_number }}.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: moliya-apk
-          path: moliya-${{ github.run_number }}.apk
+          name: finance-app-apk
+          path: finance-app-${{ github.run_number }}.apk
 
       - name: Publish as GitHub release (easy download from phone)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Moliya build ${{ github.run_number }}
-          files: moliya-${{ github.run_number }}.apk
+          name: Finance App build ${{ github.run_number }}
+          files: finance-app-${{ github.run_number }}.apk

@@ -19,7 +19,7 @@ export function SmsInbox({ onBack, onSync, syncing }: Back & { onSync: () => voi
     if (!smsSupported) { setMsg('Чтение SMS работает только в установленном Android-приложении (APK).'); return; }
     const ok = await requestSmsPermission();
     if (ok) { st.updateSettings({ smsEnabled: true }); setMsg(''); setTimeout(onSync, 300); }
-    else setMsg('Без разрешения на SMS автоучёт не работает. Можно включить позже в настройках Android → Приложения → Moliya → Разрешения.');
+    else setMsg('Без разрешения на SMS автоучёт не работает. Можно включить позже в настройках Android → Приложения → Finance App → Разрешения.');
   };
 
   return (
@@ -28,7 +28,7 @@ export function SmsInbox({ onBack, onSync, syncing }: Back & { onSync: () => voi
         <Card>
           <T style={{ fontSize: 17, fontWeight: '800' }}>📩 Автоучёт по SMS</T>
           <T style={{ color: C.sub, marginTop: 8, lineHeight: 20 }}>
-            Moliya прочитает SMS только от банков и платёжных систем (Uzcard, Humo, Click, Payme, Uzum, Kapitalbank и др.), найдёт сумму, магазин и баланс,
+            Finance App прочитает SMS только от банков и платёжных систем (Uzcard, Humo, Click, Payme, Uzum, Kapitalbank и др.), найдёт сумму, магазин и баланс,
             и предложит записать операцию. Сначала подтягиваются SMS за последние 30 дней.{'\n\n'}
             Коды подтверждения и пароли игнорируются. Ничего не отправляется в интернет.
           </T>
@@ -183,7 +183,7 @@ export function Settings({ onBack, onReschedule }: Back & { onReschedule: () => 
       </Card>
 
       <Btn title="Удалить все данные" kind="danger" onPress={() => confirm('Удалить всё?', 'Это нельзя отменить. Сначала сохрани резервную копию.', () => st.resetAll())} style={{ marginTop: 8 }} />
-      <T style={{ color: C.dim, fontSize: 12, textAlign: 'center', marginTop: 16 }}>Moliya 1.0 · данные только на устройстве</T>
+      <T style={{ color: C.dim, fontSize: 12, textAlign: 'center', marginTop: 16 }}>Finance App 1.1 · данные только на устройстве</T>
     </Screen>
   );
 }

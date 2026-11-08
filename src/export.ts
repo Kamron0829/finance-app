@@ -28,7 +28,7 @@ export function buildAiReport(state: AppState, question?: string): string {
 
   L.push(`# Финансовый отчёт для ИИ-советника (${today})`);
   L.push('');
-  L.push('> Инструкция для ИИ: ты мой личный финансовый директор (CFO) в Узбекистане (Ташкент). Ниже все мои цифры из приложения Moliya. ' +
+  L.push('> Инструкция для ИИ: ты мой личный финансовый директор (CFO) в Узбекистане (Ташкент). Ниже все мои цифры из приложения Finance App. ' +
     'Проанализируй их честно, покажи расчёты (входные данные -> формула -> результат) и ответь:');
   L.push('> 1. Реалистичны ли мои цели и сроки при текущем доходе? Если нет, что изменить (срок, сумма, доход)?');
   L.push('> 2. Что сделать в ближайшие 30 дней, чтобы ускорить рост капитала? Дай 3-5 конкретных шагов.');
@@ -138,7 +138,7 @@ export function buildAiReport(state: AppState, question?: string): string {
     for (const x of recent) L.push(`| ${x.date.slice(0, 10)} | ${x.kind === 'income' ? 'доход' : 'расход'} | ${fmt(x.amount, false)} | ${cat.get(x.categoryId)?.name ?? x.categoryId} | ${(x.note ?? '').replace(/\|/g, '/')} |`);
   }
   L.push('');
-  L.push('_Сформировано приложением Moliya. Все данные хранятся только на телефоне._');
+  L.push('_Сформировано приложением Finance App. Все данные хранятся только на телефоне._');
   return L.join('\n');
 }
 
@@ -164,7 +164,7 @@ async function writeAndShare(name: string, content: string, mime: string) {
 
 export async function shareAiReport(question?: string) {
   const md = buildAiReport(snapshot(), question);
-  await writeAndShare(`moliya-report-${new Date().toISOString().slice(0, 10)}.md`, md, 'text/markdown');
+  await writeAndShare(`finance-app-report-${new Date().toISOString().slice(0, 10)}.md`, md, 'text/markdown');
 }
 
 export async function copyAiReport(question?: string) {
@@ -173,7 +173,7 @@ export async function copyAiReport(question?: string) {
 
 export async function exportBackup() {
   const json = JSON.stringify({ app: 'moliya', version: 1, exportedAt: new Date().toISOString(), state: snapshot() }, null, 2);
-  await writeAndShare(`moliya-backup-${new Date().toISOString().slice(0, 10)}.json`, json, 'application/json');
+  await writeAndShare(`finance-app-backup-${new Date().toISOString().slice(0, 10)}.json`, json, 'application/json');
 }
 
 export async function pickBackup(): Promise<AppState | null> {
@@ -181,6 +181,6 @@ export async function pickBackup(): Promise<AppState | null> {
   if (r.canceled || !r.assets?.[0]) return null;
   const text = Platform.OS === 'web' ? await (await fetch(r.assets[0].uri)).text() : await FileSystem.readAsStringAsync(r.assets[0].uri);
   const parsed = JSON.parse(text);
-  if (parsed?.app !== 'moliya' || !parsed.state) throw new Error('Это не файл резервной копии Moliya');
+  if (parsed?.app !== 'moliya' || !parsed.state) throw new Error('Это не файл резервной копии Finance App');
   return parsed.state as AppState;
 }
